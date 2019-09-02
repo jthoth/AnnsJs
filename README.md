@@ -36,6 +36,12 @@ $ npm run serve
 - The z-score standardization works best for all 3 datasets as it allows weights to converge faster.
 - In conclusion the architecture is robust and dynamic.
 
+### ScreenShots
+![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/init.png)
+
+![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/end.png)
+
+
 License
 ----
 
