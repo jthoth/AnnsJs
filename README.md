@@ -14,7 +14,7 @@ This homework is geared for  learning  or remembering those features about neura
 ### Tech
 
 * [Os Windows]- Windows 10.
-* [Node]- Programming language.
+* [Node]- JavaScript run-time environment that executes JavaScript code outside of a browser
 * [Languaje]- Javascript Es6
 * [Web Framwork]- Vuejs
 * [Graphs]- Google-graphs
