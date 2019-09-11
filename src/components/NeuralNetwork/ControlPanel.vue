@@ -56,9 +56,9 @@ export default{
   data() {
     return {
       datasets : [
-        {name:'Seeds', value:'/seeds_dataset.csv'},
-        {name:'Iris', value:'/iris_dataset.csv'},
-        {name:'Wine Quality', value:'/winequality.csv'},
+        {name:'Seeds', value:`${process.env.VUE_APP_ORIGIN}seeds_dataset.csv`},
+        {name:'Iris', value:`${process.env.VUE_APP_ORIGIN}iris_dataset.csv`},
+        {name:'Wine Quality', value:`${process.env.VUE_APP_ORIGIN}winequality.csv`},
       ],
       normalizers : [
         {name:'Max Min Norm', value:'maxMinNorm'},
