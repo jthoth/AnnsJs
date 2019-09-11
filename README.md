@@ -14,7 +14,7 @@ This homework is geared for  learning  or remembering those features about neura
 ### Tech
 
 * [Os Windows]- Windows 10.
-* [Node]- Programming language.
+* [Node]- JavaScript run-time environment that executes JavaScript code outside of a browser
 * [Languaje]- Javascript Es6
 * [Web Framwork]- Vuejs
 * [Graphs]- Google-graphs
@@ -35,6 +35,12 @@ $ npm run serve
 - The graph of the weights allows to see when the network is over-adjusted, in addition you can clearly see the exploration or fading of the weights.
 - The z-score standardization works best for all 3 datasets as it allows weights to converge faster.
 - In conclusion the architecture is robust and dynamic.
+
+### ScreenShots
+![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/init.png)
+
+![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/end.png)
+
 
 License
 ----
