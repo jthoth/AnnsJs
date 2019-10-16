@@ -100,8 +100,7 @@ class Constant {
 
 class InitSelector{
   static get(name){
-    let options = {'Uniform':Uniform,
-    'Normal':Normal};
+    let options = {'Uniform':Uniform, 'Normal':Normal};
     return options[name]
   }
 }
