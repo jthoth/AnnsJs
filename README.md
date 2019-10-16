@@ -32,7 +32,7 @@ $ npm run serve
 ### Homework Observations & Conclusions
 - The neural network only needs 2 to 3 iterations to learn the datasets when the weights are initialized with a normal heuristic distribution and relu activation function.
 - Vectorized implementation allows the network to converge faster
-- The graph of the weights allows to see when the network is over-adjusted, in addition you can clearly see the exploration or fading of the weights.
+- The graph of the weights allows to see when the network is over-adjusted, in addition you can clearly see the exploding or fading of the weights.
 - The z-score standardization works best for all 3 datasets as it allows weights to converge faster.
 - In conclusion the architecture is robust and dynamic.
 
