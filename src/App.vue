@@ -3,7 +3,7 @@
     <v-app-bar app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title class="headline text-uppercase">
-        <span>CC5114</span>
+
         <span class="font-weight-light"> Genetic Programming and Neural Nets</span>
       </v-toolbar-title>
       <v-spacer></v-spacer>
