@@ -1,8 +1,5 @@
-const {random, randomInt, mean} = require('mathjs')
+const {random, randomInt} = require('mathjs')
 
-const compose = (...funcs) => args => funcs.reduceRight(
-    (arg, fn) => fn(arg), args
-)  // Function Compossition
 
 class DeoxyribonucleicAcid {
 
@@ -12,13 +9,11 @@ class DeoxyribonucleicAcid {
   }
 
   getString(){
-    return String.fromCharCode(...this.genes)
+    return this.encoder.decode(this.genes)
   }
 
   fitness(target){
-    this.score = mean(this.genes.map((v, i)=>{
-        return target[i] == v
-    }))
+    this.score = this.encoder.fitness(target, this.genes)
     return this.score
   }
 
@@ -33,7 +28,7 @@ class DeoxyribonucleicAcid {
   }
 
   mutate(rate){
-    this.genes = this.genes.map((v, i)=>{
+    this.genes = this.genes.map((v)=>{
       return random() <= rate ? this.encoder.sample() : v
     })
   }

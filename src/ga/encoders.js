@@ -1,4 +1,4 @@
-const {randomInt, pickRandom} = require('mathjs')
+const {randomInt, pickRandom, mean, sum} = require('mathjs')
 
 class Generator{
 
@@ -16,6 +16,21 @@ class Generator{
   sample(){
     return randomInt(this.from, this.to + 1)
   }
+
+  static encodeTarget(target){
+    return Array.from(Array(target.length), (_, i)=> target[i].charCodeAt())
+  }
+
+  fitness(target, genes){
+    return mean(genes.map((v, i)=>{
+      return target[i] == v
+    }))
+  }
+
+  decode(genes){
+     return String.fromCharCode(...genes)
+  }
+
 }
 
 class Binary extends Generator{
@@ -38,7 +53,7 @@ class Alphabet extends Generator{
   }
 
   static commonSynbols(){
-    return [32, 33, 44, 45, 46]
+    return [32, 33, 44, 45, 46, 39]
   }
 
 }
@@ -61,24 +76,93 @@ class WeighAlphabet{
   }
 
   get(empty=false){
-    let samples =  pickRandom(this.alphabet, this.numSamples, this.weights)
+    let samples =  Array.from(Array(this.numSamples), ()=>this.sample())
     return empty ? Array(this.numSamples) : samples
   }
 
   sample(){
-    return pickRandom(this.alphabet, 1, this.weights)
+    return pickRandom(this.alphabet, 1, this.weights)[0]
   }
 
   buildVocabulary(){
-    let vocabulary = Alphabet.lower().concat(Alphabet.commonSynbols())
-    let symbolsWeights = [300, 200, 150, 100, 50]
-    let weights = this.englishFrecuencyChars().concat(symbolsWeights)
+    let vocabulary = Alphabet.lower().concat(
+      Alphabet.commonSynbols()
+    ).concat(Alphabet.upper())
+    let symbolsWeights = [1000, 200, 150, 100, 50, 100]
+    let weights = this.englishFrecuencyChars().concat(
+      symbolsWeights
+    ).concat(this.englishFrecuencyChars())
     return [vocabulary, weights]
+  }
+
+  static encodeTarget(target){
+    return Array.from(Array(target.length), (_, i)=> target[i].charCodeAt())
+  }
+
+  fitness(target, genes){
+    return mean(genes.map((v, i)=>{
+      return target[i] == v
+    }))
+  }
+
+  decode(genes){
+     return String.fromCharCode(...genes)
+  }
+}
+
+class Knapsack{
+
+  constructor(numSamples){
+    this.numSamples = numSamples
+  }
+
+  static encodeTarget(target){
+    let splited = target.replace(/\s/g, '').split(',').map(parseFloat)
+    let [bagOfItems, capacity] = [[], splited.slice(-1)[0]]
+    for (var i = 0; i <= Math.floor(splited.length/2); i++) {
+      bagOfItems.push([splited[i], splited[i + 1], capacity])
+    }
+    return bagOfItems
+  }
+
+  fitness(target, genes){
+    let maxCapacity = target[0][2]
+    let w = sum(target.map((v, i) => v[0] * genes[i]))
+    let v = sum(target.map((v, i) => v[1] * genes[i]))
+    return w < maxCapacity ? v/100 : 0
+  }
+
+  get(empty=false){
+    let samples = randomInt([this.numSamples], 0, 2)
+    return empty ? Array(this.numSamples) : samples
+  }
+
+  decode(genes){
+     return `(${genes.join(', ')})`
+  }
+
+  sample(){
+    return randomInt(0, 2)
+  }
+
+}
+
+class EncoderSelector{
+  static get(name){
+    let options = {
+      'binary': Binary,
+      'alphabet': Alphabet,
+      'walphabet': WeighAlphabet,
+      'knapsack':Knapsack
+    }
+    return options[name]
   }
 }
 
 module.exports = {
   Binary,
   Alphabet,
-  WeighAlphabet
+  WeighAlphabet,
+  Knapsack,
+  EncoderSelector
 }

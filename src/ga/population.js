@@ -1,5 +1,6 @@
-import {DeoxyribonucleicAcid} from './dna'
+//
 const {randomInt, max} = require('mathjs')
+const {DeoxyribonucleicAcid} = require('./dna')
 
 class Population{
 
@@ -62,6 +63,11 @@ class Population{
     this.individuals = newIndividuals
   }
 
+  getSample(number){
+    let indexSamples = randomInt([number], this.quantity)
+    return indexSamples.map((i) => this.individuals[i].getString())
+  }
+
   getMaxScore(){
     return max(this.individuals.map((x) => x.score))
   }
@@ -71,6 +77,7 @@ class Population{
       (iMax, x, i, arr) => x > arr[iMax] ? i : iMax, 0
     )]
   }
+
 
 }
 
