@@ -33,7 +33,7 @@
                   <v-col cols="12">
                     <v-text-field
                       v-model="target"
-                      v-on:keyup="loadExperiment"
+                      v-on:change="loadExperiment"
                       label="Write your target"
                       required
                     ></v-text-field>
@@ -103,6 +103,9 @@
 <script>
 import {EncoderSelector} from '../ga/encoders'
 import {Population} from '../ga/population'
+import {DeoxyribonucleicAcid} from '../ga/dna'
+
+
 import {randomInt, sum} from 'mathjs'
 
 export default{
@@ -151,7 +154,8 @@ export default{
         this.targetEncoded = encoder.encodeTarget(this.target)
         this.instanceOfEncoder = new encoder(this.targetEncoded.length)
         this.instanceOfPopulation = new Population(
-          this.NumPopulation, this.targetEncoded, this.instanceOfEncoder
+          this.NumPopulation, this.targetEncoded, this.instanceOfEncoder,
+          DeoxyribonucleicAcid
         )
         this.bestDna = this.instanceOfPopulation.getTheBest()
         this.populationSample = this.instanceOfPopulation.getSample(10)
@@ -194,7 +198,8 @@ export default{
         let data = []
 
         let instanceOfPopulation = new Population(
-          population[i], this.targetEncoded, this.instanceOfEncoder
+          population[i], this.targetEncoded, this.instanceOfEncoder,
+          DeoxyribonucleicAcid
         )
 
         for (var j = 0; j < mutationRates.length; j++) {

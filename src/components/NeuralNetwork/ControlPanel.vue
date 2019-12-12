@@ -70,7 +70,7 @@ export default{
       ],
       activations : [
         {name:'Sigmoid', value:'Sigmoid'},
-        {name:'Thangent', value:'Tanh'},
+        {name:'Tangent', value:'Tanh'},
         {name:'Relu', value:'Relu'},
       ],
       costFunctions : [
