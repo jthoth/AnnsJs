@@ -47,7 +47,7 @@ This homework is geared for learning or remembering those features about neural 
 
 # Description About Genetic Algorithms Knapsack Approach
 
-We try to solve the 0-1 Knapsack Problem (KP) using genetic algorithms, this is an optimization problem in which we used a combinatorial approach, this approach tries seeking to maximize the benefit of objects in a knapsack without exceeding its capacity. It was used a simple fitness **(adding the weights which was choosing then we constrain to the max capacity, being the fitness score the profit)** function due to the fact an implementation with penalties carries to odd results and the computational cost is expensive.
+We try to solve the 0-1 Knapsack Problem (KP) using genetic algorithms, this is an optimization problem in which we used a combinatorial approach, this approach tries seeking to maximize the benefit of objects in a knapsack without exceeding its capacity. It was used a simple fitness **(adding the weights which was choosing then we constrain to the max capacity, being the fitness score the profit)** function due to the fact an implementation with penalties carries to odd results and the computational cost is expensive. Finally, it can be clearly notice that genes determine if something is stored in the bag, and an individual is a list of those choices
 
 ### About the code
 The implementation of the core algorithm only depend on of the encoder, I mean the encoder process the input as string and gives to the GA the rules to maximize the score. In addition, we build an interactive tool.
@@ -63,6 +63,59 @@ The implementation of the core algorithm only depend on of the encoder, I mean t
 ### Screenshots
 
 ![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/ga.png)
+
+
+# Description About Genetic Programming Implementation
+
+The following lines graph illustrate the score evolution over the n generations of the population. Units are measured in porcents.
+
+### Exercise Find Number without limit of repetitions
+ Overall, the score increased over the generation given. At the start of the generation the score is high; nevertheless,  in some cases it fall dramatically.
+With regards to the maximum score, it was reached approximately in the 33th generation approximately.
+
+![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/fitness.png)
+
+### Exercise Find Number minimizing number of nodes and maximizing the score
+The behavior of the graph in this exercise is almost similar to the previous one, with the difference that it converges
+to a faster score (in average)
+
+![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/accotedfitness.png)
+
+### Exercise Find Number without repetitions
+**Image line evolution**
+
+### Exercise variables support
+
+To make the library of trees support variable, the only thing that was done was to pass an additional dictionary type parameter to the function that reduces the tree (eval). Additionally, a condition was added to the node terminal that verifies if it is string to retrieve from the dictionary.
+
+```javascript
+class Terminal extends Node{
+
+  constructor(value){
+    super(()=> value)
+    this.value = value
+  }
+
+  eval(variable=null){
+    if(typeof(this.value) == 'string')
+      return variable[this.value] || 0
+    return this.value
+  }
+}
+
+```
+
+### Exercise Symbolic Regression
+
+**Image line evolution**
+
+### Exercise Division Node
+In JavaScript does not exist Division Zero Exception, Thus only we need to add a simple characteristic to the fitness function to ignore the Nans values generated for those invalid trees
+
+## Analysis over Find Number without limit of repetitions (GridSearch)
+
+![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/heatmap.png)
+
 
 License
 ----

@@ -196,14 +196,11 @@ export default{
 
       for (var i = 0; i < population.length; i++) {
         let data = []
-
-        let instanceOfPopulation = new Population(
-          population[i], this.targetEncoded, this.instanceOfEncoder,
-          DeoxyribonucleicAcid
-        )
-
         for (var j = 0; j < mutationRates.length; j++) {
-
+            let instanceOfPopulation = new Population(
+              population[i], this.targetEncoded, this.instanceOfEncoder,
+              DeoxyribonucleicAcid
+            )
             for (var k = 0; k < 100; k++) {
               instanceOfPopulation.update(mutationRates[j])
             }

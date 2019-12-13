@@ -57,12 +57,21 @@
               class='mt-5'
               outlined
               ></v-select>
+
+              <v-text-field
+              v-model="maxOperations"
+              label="Maximum number of operator nodes"
+              v-on:keyup="loadExperiment"
+              required
+              ></v-text-field>
+
             </v-col>
           </v-col>
           <v-col md="8">
             <div class="overline ml-2"> <v-icon>mdi-dna</v-icon> Best DeoxyribonucleicAcid Fitness</div>
             <v-col cols="12" v-if="render">
-              <v-list-item-subtitle class="mt-2"><b>fitness: </b> {{bestDna.score | percentage}}</v-list-item-subtitle>
+              <v-list-item-subtitle class="mt-2"><b>fitness: </b> {{bestDna.score | percentage}} ||  <b> aproximation: </b> {{bestDna.genes.eval()}} </v-list-item-subtitle>
+
               <GChart type="WordTree"
               :data="data"
               :options="chartOptions"
@@ -109,6 +118,7 @@ export default{
   },
   data: () => ({
      targetgp:'',
+     maxOperations:15,
      chartOptions: {
         wordtree: {
           format: 'implicit',
@@ -169,12 +179,15 @@ export default{
         let encoder = EncoderSelectorGP.get(this.experiment)
         let operations = this.operation.map(OperatorSelector.get)
         let terminals = this.terminals.split(',').map(parseFloat)
-        return new encoder(operations, terminals)
+        return new encoder(operations, terminals,  0.3,
+                          parseFloat(this.maxOperations))
       },
       loadExperiment: function() {
         if(this.renderConditions()){
           this.instanceOfEncoder = this.buildEncoder()
-          this.targetEncoded = this.instanceOfEncoder.encode(this.targetgp)
+          this.targetEncoded = this.instanceOfEncoder.encode(
+            this.targetgp
+          )
           this.instanceOfPopulation = new Population(
             this.NumPopulation, this.targetEncoded, this.instanceOfEncoder,
             DeoxyribonucleicAcidGP
@@ -203,27 +216,30 @@ export default{
       runAlgorithm: function() {
         if(this.renderConditions()){
           for (var i = 0; i < this.NumGenerations; i++) {
-            if(Math.round(this.bestDna.score * 100, 2) == 99)
+            if(this.bestDna.score == 1)
               break
             this.updatePopulation()
           }
         }
       },
       heatMapGenerator: function(){
-        let population = [64, 80, 100, 126, 200]
-        let mutationRates = [0.0, 0.01, 0.05, 0.1, 0.25, 0.5, 1]
+        let population = Array.from({length: 20}, (x, i) => (i + 1) * 50)
+        let mutationRates = Array.from({length: 10}, (x, i) => (i + 1) / 10)
 
         for (var i = 0; i < population.length; i++) {
           let data = []
-
-          let instanceOfPopulation =  new Population(
-            population[i], this.targetEncoded, this.instanceOfEncoder,
-            DeoxyribonucleicAcidGP
-          )
           for (var j = 0; j < mutationRates.length; j++) {
-              for (var k = 0; k < 30; k++) {
+              let instanceOfPopulation =  new Population(
+                population[i], this.targetEncoded, this.instanceOfEncoder,
+                DeoxyribonucleicAcidGP
+              )
+
+              for (var k = 0; k < 100; k++) {
+                if(this.bestDna.score == 1)
+                  break
                 instanceOfPopulation.update(mutationRates[j])
               }
+              console.log(population[i], mutationRates[j])
 
               data.push({
                 x:`Mut(${mutationRates[j]})`,
@@ -241,7 +257,7 @@ export default{
     },
     filters: {
       percentage: function (value) {
-        return `${Math.round(value * 100, 2)} %`
+        return `${value.toFixed(6) * 100} %`
       }
     }
   }

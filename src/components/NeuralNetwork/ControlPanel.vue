@@ -78,12 +78,15 @@ export default{
       ],
       lr:0.1,
       epochs:0,
-      dataset:'',
+      dataset:`${process.env.VUE_APP_ORIGIN}iris_dataset.csv`,
       normalizer: 'zScoreNorm',
       initializer: 'Normal',
       activation: 'Relu',
       costFunction: 'SquareError'
     }
+  },
+  mounted() {
+    this.loadDataset()
   },
   methods:{
     loadDataset: function() {

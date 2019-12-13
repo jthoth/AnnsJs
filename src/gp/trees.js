@@ -7,13 +7,28 @@ class Node{
     this.args = Array()
   }
 
-  eval(){
+  eval(variable=null){
     return this.functor(
-    ...this.args.map((node) => node.eval()))
+    ...this.args.map((node) => node.eval(variable)))
   }
 
   copy(){
     return _.cloneDeep(this)
+  }
+
+  numOperations(){
+     let [current, totalOperations] = [[this], 0]
+     while (current.length > 0){
+       let level = []
+       for(let node of current){
+           if(node.functor.length){
+               totalOperations++
+               level.push(...node.args)
+           }
+       }
+       current = level
+     }
+    return totalOperations
   }
 
   replace(nodeInstance){
@@ -113,7 +128,9 @@ class Terminal extends Node{
     this.value = value
   }
 
-  eval(){
+  eval(variable=null){
+    if(typeof(this.value) == 'string')
+      return variable[this.value] || 0
     return this.value
   }
 }
