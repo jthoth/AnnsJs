@@ -3,11 +3,15 @@ const {Terminal} = require('./trees')
 
 class AbstractSyntacticTree{
 
-  constructor(nodes, terminals, cutproba=0.3, maxOperations=100){
+  constructor(nodes, terminals, cutproba=0.3, maxOperations=100,
+    withRepetitions=true){
+
+    this.withRepetitions = withRepetitions
     this.maxOperations = maxOperations
     this.terminals = terminals
     this.cutproba = cutproba
     this.nodes = nodes
+
   }
 
   getFromArray(array){
@@ -30,16 +34,17 @@ class AbstractSyntacticTree{
     return this.get()
   }
 
-  penalizeSize(genes){
-    let totalOperations = genes.numOperations()
+  getPenalization(genes){
+    let [penalize, totalOperations] = genes.getPenalization()
+    if(this.withRepetitions)
+      penalize = 0
     if(totalOperations <= this.maxOperations)
-      return 0
-    return (totalOperations - this.maxOperations)/totalOperations
-
+      return penalize
+    return penalize + ((totalOperations - this.maxOperations)/totalOperations)
   }
 
   fitness(target, genes){
-    let penalize = this.penalizeSize(genes)
+    let penalize = this.getPenalization(genes)
     let reducedTree = genes.eval()
     let loss = ((reducedTree  + target)/target) - 1
     return loss > 1 || isNaN(reducedTree) ? 0 : loss - penalize

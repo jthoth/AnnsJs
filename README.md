@@ -67,7 +67,7 @@ The implementation of the core algorithm only depend on of the encoder, I mean t
 
 # Description About Genetic Programming Implementation
 
-The following lines graph illustrate the score evolution over the n generations of the population. Units are measured in porcents.
+The following lines graph illustrate the score evolution over the n generations of the population. Units are measured in percent.
 
 ### Exercise Find Number without limit of repetitions
  Overall, the score increased over the generation given. At the start of the generation the score is high; nevertheless,  in some cases it fall dramatically.
@@ -77,12 +77,17 @@ With regards to the maximum score, it was reached approximately in the 33th gene
 
 ### Exercise Find Number minimizing number of nodes and maximizing the score
 The behavior of the graph in this exercise is almost similar to the previous one, with the difference that it converges
-to a faster score (in average)
+to a faster approximate score (in average), However, it takes long generations to reached the exact target.
 
 ![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/accotedfitness.png)
 
 ### Exercise Find Number without repetitions
-**Image line evolution**
+In this case there are more fluctuations than in the previous cases. Additionally it was observed that the tree grew in depth due to the limited options of operations it had.
+
+![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/chartConstrained.png)
+
+
+![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/constrainedTree.png)
 
 ### Exercise variables support
 
@@ -112,7 +117,9 @@ class Terminal extends Node{
 ### Exercise Division Node
 In JavaScript does not exist Division Zero Exception, Thus only we need to add a simple characteristic to the fitness function to ignore the Nans values generated for those invalid trees
 
-## Analysis over Find Number without limit of repetitions (GridSearch)
+## Analysis over Find Number without limit of repetitions (Grid Search)
+
+
 
 ![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/heatmap.png)
 

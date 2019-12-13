@@ -64,6 +64,9 @@
               v-on:keyup="loadExperiment"
               required
               ></v-text-field>
+              <v-checkbox v-model="withRepetitions" label="Allow terminal nodes to repeat"
+                @change="loadExperiment"
+              ></v-checkbox>
 
             </v-col>
           </v-col>
@@ -117,8 +120,10 @@ export default{
     GChart
   },
   data: () => ({
-     targetgp:'',
-     maxOperations:15,
+     targetgp:'65346',
+     withRepetitions:true,
+     maxOperations:25,
+     renderMaxOperations:true,
      chartOptions: {
         wordtree: {
           format: 'implicit',
@@ -162,13 +167,16 @@ export default{
         ['AST']
       ]
     }),
+    mounted() {
+      this.loadExperiment()
+    },
     methods:{
       resetValues: function(){
         this.render = false
         this.series[0]['data'] = []
         this.seriesHM = []
         this.ActualGeneration=0
-        this.targetgp = ''
+        this.targetgp = '65346'
       },
       renderConditions: function(){
         return (this.targetgp.length > 0  &&
@@ -180,7 +188,8 @@ export default{
         let operations = this.operation.map(OperatorSelector.get)
         let terminals = this.terminals.split(',').map(parseFloat)
         return new encoder(operations, terminals,  0.3,
-                          parseFloat(this.maxOperations))
+                          parseFloat(this.maxOperations),
+                          this.withRepetitions)
       },
       loadExperiment: function() {
         if(this.renderConditions()){

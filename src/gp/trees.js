@@ -31,6 +31,22 @@ class Node{
     return totalOperations
   }
 
+  getPenalization(){
+     let [allNodes, cache] = [this.serialize(), {}]
+     for(let item of allNodes){
+       if(item.args.map((arg)=>arg.functor.length).reduce(
+         (x, y) => x + y, 0) == 0){
+           let reduced = item.functor(
+             ...item.args.map((arg)=>arg.value)
+           )
+           if(cache[reduced] == true)
+             return [1, allNodes.length]
+           cache[reduced] = true
+       }
+     }
+     return [0, allNodes.length]
+   }
+
   replace(nodeInstance){
     this.functor = Object.assign(nodeInstance.functor)
     this.value = Object.assign(nodeInstance.value)
@@ -43,7 +59,8 @@ class Node{
        let level = []
        for(let node of current){
            if(node.functor.length){
-               allnodes.push(node); level.push(...node.args)
+               allnodes.push(node)
+               level.push(...node.args)
            }
        }
        current = level

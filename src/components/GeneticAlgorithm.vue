@@ -110,7 +110,7 @@ import {randomInt, sum} from 'mathjs'
 
 export default{
   data: () => ({
-    target:'',
+    target:'My name is Thoth',
     chartOptions:{yaxis:{labels:{
         formatter: (value) => `${Math.round(value * 100, 2)} %`
     }}},
@@ -137,8 +137,11 @@ export default{
       {name:'Enlglish Common Vocab', value:'walphabet'},
       {name:'Knapsack 0-1 Problem', value:'knapsack'},
     ],
-    experiment:'knapsack'
+    experiment:'walphabet'
   }),
+  mounted() {
+    this.loadExperiment()
+  },
   methods:{
     resetValues: function(){
       this.render = false
