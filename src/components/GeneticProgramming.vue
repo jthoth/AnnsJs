@@ -152,7 +152,7 @@ export default{
       series:[{name:'Fitness Evolution', data:[]}],
       experiments : [
         {name:'Find The Number', value:'findTheNumber'},
-        {name:'Symbolic Regression', value:'SymbolicRegression'},
+        {name:'Symbolic Regression', value:'Regressor'},
       ],
       operations : [
         {name:'Addition', value:'add'},

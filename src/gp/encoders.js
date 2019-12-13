@@ -1,4 +1,5 @@
 const {Terminal} = require('./trees')
+const {randomInt} = require('mathjs')
 
 
 class AbstractSyntacticTree{
@@ -57,17 +58,21 @@ class AbstractSyntacticTree{
 }
 
 class AbstractSyntacticTreeRegresor extends AbstractSyntacticTree{
-  constructor(nodes, terminals, cutproba=0.3, maxOperations=100){
-    super(nodes, terminals, cutproba, maxOperations)
+  constructor(nodes, terminals, cutproba=0.3, maxOperations=100,
+              withRepetitions=true){
+    super(nodes, terminals, cutproba, maxOperations, withRepetitions)
   }
 
   fitness(target, genes){
-    let penalize = this.penalizeSize(genes)
-    let reducedTree = genes.eval()
-    let loss = ((reducedTree  + target)/target) - 1
-    return loss > 1 || isNaN(reducedTree) ? 0 : loss - penalize
+    let penalize = this.getPenalization(genes)
+    // let space = Array.from({length:200}, (_, i)=> i - 100).map()
+    return 1
   }
 
+  encode(target){
+    return target
+  }
+  
 }
 
 class EncoderSelectorGP{
@@ -83,5 +88,6 @@ class EncoderSelectorGP{
 
 module.exports = {
   AbstractSyntacticTree,
+  AbstractSyntacticTreeRegresor,
   EncoderSelectorGP,
 }

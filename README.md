@@ -86,6 +86,7 @@ In this case there are more fluctuations than in the previous cases. Additionall
 
 ![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/chartConstrained.png)
 
+Another interesting thing found in the tree was that prefer addition operation over the rest as we can see in the next image.
 
 ![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/constrainedTree.png)
 
