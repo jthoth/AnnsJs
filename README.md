@@ -67,7 +67,8 @@ The implementation of the core algorithm only depend on of the encoder, I mean t
 
 # Description About Genetic Programming Implementation
 
-The following lines graph illustrate the score evolution over the n generations of the population. Units are measured in percent.
+The following lines graph illustrate the score evolution over the n generations of the population. Units are measured in percent. To compute the bellow figures we only change the parameters of the panel.
+
 
 ### Exercise Find Number without limit of repetitions
  Overall, the score increased over the generation given. At the start of the generation the score is high; nevertheless,  in some cases it fall dramatically.
@@ -102,25 +103,30 @@ class Terminal extends Node{
     this.value = value
   }
 
-  eval(variable=null){
-    if(typeof(this.value) == 'string')
-      return variable[this.value] || 0
+  eval(variable={}){
+    if(isNaN(this.value)){
+        return variable[this.value] || 0
+    }
     return this.value
   }
 }
-
 ```
 
 ### Exercise Symbolic Regression
+Since the function to be approximated is not complex, with a considerable amount of population the problem can be easily resolved.
 
-**Image line evolution**
+As can be seen in the figure below, the similarity between the functions is almost perfect since starting at 99% similarity, this similarity was calculated with the help of the normalized cosine distance. The idea of the objective function was to maximize the similarity.
+
+![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/regresor.png)
 
 ### Exercise Division Node
 In JavaScript does not exist Division Zero Exception, Thus only we need to add a simple characteristic to the fitness function to ignore the Nans values generated for those invalid trees
 
-## Analysis over Find Number without limit of repetitions (Grid Search)
+## Analysis over Find Number with limit of repetitions (Grid Search)
 
+As can be seen in the following figure, a small population with little mutation rate has the worst results. Another important factor to note is that with a high mutation rate the problem does not converge to a solution.
 
+The graph also shows us that for this problem it is advisable to use a small mutation rate with a population of 200 individuals.
 
 ![N|Solid](https://raw.githubusercontent.com/jthoth/AnnsJs/master/public/images/heatmap.png)
 

@@ -7,7 +7,7 @@ class Node{
     this.args = Array()
   }
 
-  eval(variable=null){
+  eval(variable={}){
     return this.functor(
     ...this.args.map((node) => node.eval(variable)))
   }
@@ -145,9 +145,10 @@ class Terminal extends Node{
     this.value = value
   }
 
-  eval(variable=null){
-    if(typeof(this.value) == 'string')
-      return variable[this.value] || 0
+  eval(variable={}){
+    if(isNaN(this.value)){
+        return variable[this.value] || 0
+    }
     return this.value
   }
 }

@@ -53,6 +53,7 @@
               item-text="name"
               item-value="value"
               label="Operations"
+              @change="loadExperiment"
               multiple
               class='mt-5'
               outlined
@@ -120,7 +121,7 @@ export default{
     GChart
   },
   data: () => ({
-     targetgp:'65346',
+     targetgp: 'x*x + x - 6', //'65346',
      withRepetitions:true,
      maxOperations:25,
      renderMaxOperations:true,
@@ -131,7 +132,7 @@ export default{
       chartOptionsA:{yaxis:{labels:{
           formatter: (value) => `${Math.round(value * 100, 2)} %`
       }}},
-      terminals:'25, 7, 8, 100, 4, 2',
+      terminals:'-10.0, 10.0, 5.0, 0.0, 0.1, 2, -2, x, x, x, x, x, x',
       chartSettings: { packages: ['wordtree', 'table'] },
       chartOptionsHM:{colors: ["#1976d2"]},
       seriesHM:[],
@@ -161,8 +162,8 @@ export default{
         {name:'Max', value:'max'},
         {name:'Division', value:'div'},
       ],
-      experiment:'findTheNumber',
-      operation:['add', 'sub', 'mul', 'max'],
+      experiment:'Regressor',
+      operation:['add', 'sub', 'mul'],
       data:[
         ['AST']
       ]
@@ -176,17 +177,24 @@ export default{
         this.series[0]['data'] = []
         this.seriesHM = []
         this.ActualGeneration=0
-        this.targetgp = '65346'
+        this.targetgp = 'x*x + x - 6'
       },
       renderConditions: function(){
         return (this.targetgp.length > 0  &&
                 this.terminals.length > 0 &&
                 this.operation.length > 0)
       },
+      getTerminals: function(){
+        if(this.experiment == 'Regressor'){
+          return this.terminals.split(',').map(
+            (item)=> isNaN(item) ? item.trim(): parseFloat(item))
+        }
+        return this.terminals.split(',').map(parseFloat)
+      },
       buildEncoder: function(){
         let encoder = EncoderSelectorGP.get(this.experiment)
         let operations = this.operation.map(OperatorSelector.get)
-        let terminals = this.terminals.split(',').map(parseFloat)
+        let terminals = this.getTerminals()
         return new encoder(operations, terminals,  0.3,
                           parseFloat(this.maxOperations),
                           this.withRepetitions)
@@ -211,11 +219,12 @@ export default{
       },
       updatePopulation: function() {
         if(this.renderConditions()){
+          let lastScore = this.bestDna.score
           this.instanceOfPopulation.update(this.mutationRate)
           this.bestDna = this.instanceOfPopulation.getTheBest()
           this.data = this.bestDna.genes.toList()
           this.chartOptions.wordtree.word = this.bestDna.genes.value
-          this.series[0]['data'].push(this.bestDna.score)
+          this.series[0]['data'].push(this.bestDna.score || lastScore)
           this.ActualGeneration += 1
           this.render = true
         }else{
@@ -246,9 +255,7 @@ export default{
               for (var k = 0; k < 100; k++) {
                 if(this.bestDna.score == 1)
                   break
-                instanceOfPopulation.update(mutationRates[j])
-              }
-              console.log(population[i], mutationRates[j])
+                instanceOfPopulation.update(mutationRates[j])}
 
               data.push({
                 x:`Mut(${mutationRates[j]})`,

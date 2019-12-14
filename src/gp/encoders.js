@@ -1,6 +1,5 @@
+const similarity = require( 'compute-cosine-similarity' )
 const {Terminal} = require('./trees')
-const {randomInt} = require('mathjs')
-
 
 class AbstractSyntacticTree{
 
@@ -12,7 +11,6 @@ class AbstractSyntacticTree{
     this.terminals = terminals
     this.cutproba = cutproba
     this.nodes = nodes
-
   }
 
   getFromArray(array){
@@ -65,14 +63,18 @@ class AbstractSyntacticTreeRegresor extends AbstractSyntacticTree{
 
   fitness(target, genes){
     let penalize = this.getPenalization(genes)
-    // let space = Array.from({length:200}, (_, i)=> i - 100).map()
-    return 1
+    let predicted = Array.from({length:200}, (_, i)=> i - 100).map(
+      (value) => genes.eval({x : value})
+    )
+    return similarity(target, predicted) - penalize
   }
 
   encode(target){
-    return target
+    return Array.from({length:200}, (_, i)=> i - 100).map(
+      (x) => eval(target)
+    )
   }
-  
+
 }
 
 class EncoderSelectorGP{
