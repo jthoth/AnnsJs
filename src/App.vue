@@ -56,8 +56,6 @@ export default {
       { title: 'Neural Nets', icon: 'mdi-molecule', link:'/' },
       { title: 'Genetic Algorithms', icon: 'mdi-dna', link:'/algorithms' },
       { title: 'Genetic Programming', icon: 'mdi-transit-connection-variant' , link:'/programming'},
-      { title: 'Neuroevolution', icon: 'mdi-apache-kafka', link:'/evolution' },
-      { title: 'About', icon: 'mdi-help-box', link:'/about' },
     ],
     right: null,
     drawer: null,
