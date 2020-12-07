@@ -6,8 +6,6 @@ ANN | DNA
 
 [![Build Status](https://travis-ci.org/joemccann/dillinger.svg?branch=master)](https://travis-ci.org/joemccann/dillinger)
 
-This project is a homework, it is part of CC5114 (GENETIC PROGRAMMING AND NEURAL NETS).
-
 ### Tech
 
 * [Os Windows]- Windows 10.
