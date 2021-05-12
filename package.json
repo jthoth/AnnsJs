@@ -15,7 +15,7 @@
     "compute-cosine-similarity": "^1.0.0",
     "core-js": "^2.6.5",
     "lodash": "^4.17.15",
-    "mathjs": "^6.1.0",
+    "mathjs": "^7.5.1",
     "numjs": "^0.16.0",
     "random-normal": "^1.0.0",
     "vue": "^2.6.10",
